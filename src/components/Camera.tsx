@@ -1,204 +1,309 @@
-import { Camera as OriginalCamera } from 'expo-camera';
-import React, { useCallback, useState, useEffect, useRef } from 'react';
-import { View } from 'react-native';
-import { windowWidth } from '../constants/dimensions';
-import { Button } from './Button';
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-unused-vars */
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+  ImageBackground,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
+import { Camera } from 'expo-camera';
+import Loader from './Loader';
+import { getEquation } from '../api/readImage';
 
-type CameraRef = OriginalCamera;
-type CameraRefCallback = (node: CameraRef) => void;
-type Dimensions = { width: number; height: number };
+let camera: Camera;
+export default function OriginalCamera() {
+  const [startCamera, setStartCamera] = useState(false);
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [capturedImage, setCapturedImage] = useState<any>(null);
+  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+  const [flashMode, setFlashMode] = useState('off');
+  const [takingPicture, setTakingPicture] = useState(false);
 
-// This Camera component will automatically pick the appropriate ratio and
-// dimensions to fill the given layout properties, and it will resize according
-// to the same logic as resizeMode: cover. If somehow something goes wrong while
-// attempting to autosize, it will just fill the given layout and use the
-// default aspect ratio, likely resulting in skew.
-export function Camera(props: OriginalCamera['props']) {
-  const [dimensions, onLayout] = useComponentDimensions();
-  const [suggestedAspectRatio, suggestedDimensions, ref] =
-    useAutoSize(dimensions);
-  const [cameraIsReady, setCameraIsReady] = useState(false);
-  const { style, ...rest } = props;
-  const { width, height } = suggestedDimensions || {};
-  const cameraRef = useRef();
-  const takePicture = async () => {
-    if (cameraIsReady) {
-      // @ts-ignore
-      const data = await cameraRef.takePictureAsync(null);
-      console.log(data.uri);
-      // setImageUri(data.uri);
+  const __startCamera = async () => {
+    const { status } = await Camera.getCameraPermissionsAsync();
+    if (status === 'granted') {
+      setStartCamera(true);
+    } else {
+      Alert.alert('Access denied');
     }
   };
 
+  const __takePicture = async () => {
+    setTakingPicture(true);
+    const photo: any = await camera.takePictureAsync();
+    setTakingPicture(false);
+    setPreviewVisible(true);
+    // setStartCamera(false)
+    setCapturedImage(photo);
+    getEquation(photo);
+  };
+
+  const __savePhoto = () => {};
+  const __retakePicture = () => {
+    setCapturedImage(null);
+    setPreviewVisible(false);
+    __startCamera();
+  };
+  const __handleFlashMode = () => {
+    if (flashMode === 'on') {
+      setFlashMode('off');
+    } else if (flashMode === 'off') {
+      setFlashMode('on');
+    } else {
+      setFlashMode('auto');
+    }
+  };
+  const __switchCamera = () => {
+    if (cameraType === 'back') {
+      setCameraType(Camera.Constants.Type.front);
+    } else {
+      setCameraType(Camera.Constants.Type.back);
+    }
+  };
   return (
-    <View
-      onLayout={onLayout}
-      style={[
-        {
-          overflow: 'hidden',
-          // backgroundColor: '#fff',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100%',
-          width: windowWidth,
-        },
-        style,
-      ]}
-    >
-      <OriginalCamera
-        onCameraReady={() => {
-          setCameraIsReady(true);
-        }}
-        onMountError={() => {
-          OriginalCamera.requestCameraPermissionsAsync();
-        }}
-        ref={cameraIsReady ? ref : undefined}
-        ratio={suggestedAspectRatio ?? undefined}
-        style={
-          suggestedDimensions && width && height
-            ? {
-                position: 'absolute',
-                width,
-                height,
-                ...(height > width
-                  ? // @ts-ignore
-                    { top: -(height - dimensions.height) / 2 }
-                  : // @ts-ignore
-                    { left: -(width - dimensions.width) / 2 }),
-              }
-            : { flex: 1 }
-        }
-        {...rest}
-      />
-      <Button name="Take" onPress={takePicture} />
+    <View style={styles.container}>
+      {startCamera ? (
+        <View
+          style={{
+            flex: 1,
+            width: '100%',
+          }}
+        >
+          {takingPicture && <Loader />}
+          {previewVisible && capturedImage ? (
+            <CameraPreview
+              photo={capturedImage}
+              savePhoto={__savePhoto}
+              retakePicture={__retakePicture}
+            />
+          ) : (
+            <Camera
+              type={cameraType}
+              // @ts-ignore
+              flashMode={flashMode}
+              style={{ flex: 1 }}
+              ref={r => {
+                // @ts-ignore
+                camera = r;
+              }}
+              ratio="16:9"
+            >
+              <View
+                style={{
+                  flex: 1,
+                  width: '100%',
+                  backgroundColor: 'transparent',
+                  flexDirection: 'row',
+                }}
+              >
+                <View
+                  style={{
+                    position: 'absolute',
+                    left: '5%',
+                    top: '10%',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={__handleFlashMode}
+                    // @ts-ignore
+                    style={{
+                      backgroundColor: flashMode === 'off' ? '#000' : '#fff',
+                      borderRadius: 50,
+                      height: 25,
+                      width: 25,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 20,
+                      }}
+                    >
+                      ⚡️
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={__switchCamera}
+                    // @ts-ignore
+                    style={{
+                      marginTop: 20,
+                      borderRadius: 50,
+                      height: 25,
+                      width: 25,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 20,
+                      }}
+                    >
+                      {cameraType === 'front' ? '🤳' : '📷'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    flexDirection: 'row',
+                    flex: 1,
+                    width: '100%',
+                    padding: 20,
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <View
+                    style={{
+                      alignSelf: 'center',
+                      flex: 1,
+                      alignItems: 'center',
+                    }}
+                  >
+                    <TouchableOpacity
+                      onPress={__takePicture}
+                      style={{
+                        width: 70,
+                        height: 70,
+                        bottom: 0,
+                        borderRadius: 50,
+                        backgroundColor: '#fff',
+                      }}
+                    />
+                  </View>
+                </View>
+              </View>
+            </Camera>
+          )}
+        </View>
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: '#fff',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <TouchableOpacity
+            onPress={__startCamera}
+            style={{
+              width: 130,
+              borderRadius: 4,
+              backgroundColor: '#14274e',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 40,
+            }}
+          >
+            <Text
+              style={{
+                color: '#fff',
+                fontWeight: 'bold',
+                textAlign: 'center',
+              }}
+            >
+              Take picture
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      <StatusBar style="auto" />
     </View>
   );
 }
 
-function useAutoSize(
-  dimensions: Dimensions | null,
-): [string | null, Dimensions | null, CameraRefCallback] {
-  const [supportedAspectRatios, ref] = useSupportedAspectRatios();
-  const [suggestedAspectRatio, setSuggestedAspectRatio] = useState<
-    string | null
-  >(null);
-  const [suggestedDimensions, setSuggestedDimensions] =
-    useState<Dimensions | null>(null);
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
-  useEffect(() => {
-    const suggestedAspectRatio_ = findClosestAspectRatio(
-      supportedAspectRatios,
-      dimensions,
-    );
-    const suggestedDimensions_ = calculateSuggestedDimensions(
-      dimensions,
-      suggestedAspectRatio_,
-    );
-
-    if (!suggestedAspectRatio_ || !suggestedDimensions_) {
-      setSuggestedAspectRatio(null);
-      setSuggestedDimensions(null);
-    } else {
-      setSuggestedAspectRatio(suggestedAspectRatio_);
-      setSuggestedDimensions(suggestedDimensions_);
-    }
-  }, [dimensions, supportedAspectRatios]);
-
-  return [suggestedAspectRatio, suggestedDimensions, ref];
-}
-
-// Get the supported aspect ratios from the camera ref when the node is available
-// NOTE: this will fail if the camera isn't ready yet. So we need to avoid setting the
-// ref until the camera ready callback has fired
-function useSupportedAspectRatios(): [string[] | null, CameraRefCallback] {
-  const [aspectRatios, setAspectRatios] = useState<string[] | null>(null);
-
-  const ref = useCallback(
-    (node: CameraRef | null) => {
-      async function getSupportedAspectRatiosAsync(node_: OriginalCamera) {
-        try {
-          const result = await node_.getSupportedRatiosAsync();
-          setAspectRatios(result);
-        } catch (e) {
-          console.error(e);
-        }
+const CameraPreview = ({ photo, retakePicture, savePhoto }: any) => {
+  return (
+    <View
+      style={{
+        backgroundColor: 'transparent',
+        flex: 1,
+        width: '100%',
+        height: '100%',
+      }}
+    >
+      {
+        // @ts-ignore
       }
+      <ImageBackground
+        source={{ uri: photo && photo.uri }}
+        style={{
+          flex: 1,
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'column',
+            padding: 15,
+            justifyContent: 'flex-end',
+          }}
+        >
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <TouchableOpacity
+              onPress={retakePicture}
+              style={{
+                width: 130,
+                height: 40,
 
-      if (node !== null) {
-        getSupportedAspectRatiosAsync(node);
-      }
-    },
-    [setAspectRatios],
+                alignItems: 'center',
+                borderRadius: 4,
+              }}
+            >
+              <Text
+                style={{
+                  color: '#fff',
+                  fontSize: 20,
+                }}
+              >
+                Re-take
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={savePhoto}
+              style={{
+                width: 130,
+                height: 40,
+
+                alignItems: 'center',
+                borderRadius: 4,
+              }}
+            >
+              <Text
+                style={{
+                  color: '#fff',
+                  fontSize: 20,
+                }}
+              >
+                save photo
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ImageBackground>
+    </View>
   );
-
-  return [aspectRatios, ref];
-}
-
-const useComponentDimensions = (): [Dimensions | null, (e: any) => void] => {
-  const [dimensions, setDimensions] = useState<Dimensions | null>(null);
-
-  const onLayout = useCallback(
-    event => {
-      const { width, height } = event.nativeEvent.layout;
-      setDimensions({ width, height });
-    },
-    [setDimensions],
-  );
-
-  return [dimensions, onLayout];
 };
-
-function ratioStringToNumber(ratioString: string) {
-  const [a, b] = ratioString.split(':');
-  return parseInt(a, 10) / parseInt(b, 10);
-}
-
-function findClosestAspectRatio(
-  supportedAspectRatios: string[] | null,
-  dimensions: Dimensions | null,
-) {
-  if (!supportedAspectRatios || !dimensions) {
-    return null;
-  }
-
-  try {
-    const dimensionsRatio =
-      Math.max(dimensions.height, dimensions.width) /
-      Math.min(dimensions.height, dimensions.width);
-
-    const aspectRatios = [...supportedAspectRatios];
-    aspectRatios.sort((a: string, b: string) => {
-      const ratioA = ratioStringToNumber(a);
-      const ratioB = ratioStringToNumber(b);
-      return (
-        Math.abs(dimensionsRatio - ratioA) - Math.abs(dimensionsRatio - ratioB)
-      );
-    });
-
-    return aspectRatios[0];
-  } catch (e) {
-    // If something unexpected happens just bail out
-    console.error(e);
-    return null;
-  }
-}
-
-function calculateSuggestedDimensions(
-  containerDimensions: Dimensions | null,
-  ratio: string | null,
-) {
-  if (!ratio || !containerDimensions) {
-    return null;
-  }
-
-  try {
-    const ratioNumber = ratioStringToNumber(ratio);
-    const width = containerDimensions.width;
-    const height = width * ratioNumber;
-    return { width, height };
-  } catch (e) {
-    // If something unexpected happens just bail out
-    console.error(e);
-    return null;
-  }
-}
