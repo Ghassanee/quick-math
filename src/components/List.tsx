@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-import { Text } from './Text';
 import colors from '../constants/colors';
+import { HistoryCard } from './HistoryCard';
 
 const styles = StyleSheet.create({
   row: {
@@ -32,14 +33,7 @@ export const ListItem = ({
 }: ListItemProps) => {
   const rowStyles = [styles.row];
 
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={rowStyles}>
-        <Text style={[styles.titleText]}>{title}</Text>
-        <Text>{subtitle}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+  return <HistoryCard onPress={onPress} />;
 };
 
 export const ListSeparator = () => <View style={styles.separator} />;
