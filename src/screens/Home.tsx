@@ -1,7 +1,9 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as ImagePicker from 'expo-image-picker';
 import colors from '../constants/colors';
 import { MainStackParams } from '../navigation/Main';
 import { IconWithText } from '../components/IconWithText';
@@ -51,6 +53,38 @@ type Props = {
 };
 
 export const Home = ({ navigation }: Props) => {
+  const [image, setImage] = useState<any>(null);
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+  const takeImage = async () => {
+    // No permissions request is necessary for launching the image library
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
   return (
     <LinearGradient colors={['#ADC4F1', '#91ACDF40']} style={styles.container}>
       <IconWithText
@@ -76,7 +110,7 @@ export const Home = ({ navigation }: Props) => {
         style={styles.calculator}
       />
       <IconWithText
-        onPress={() => {}}
+        onPress={pickImage}
         title="Upload"
         icon={require('../../assets/icons/image.png')}
         style={styles.image}
@@ -84,11 +118,7 @@ export const Home = ({ navigation }: Props) => {
 
       <View style={styles.take_picture_container}>
         <Text style={styles.take_picture_text}>Tap to take a picture </Text>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.push('TakePicture');
-          }}
-        >
+        <TouchableOpacity onPress={takeImage}>
           <Image
             style={styles.take_picture}
             source={require('../../assets/take_picture.png')}

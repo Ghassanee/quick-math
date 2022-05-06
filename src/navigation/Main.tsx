@@ -76,8 +76,7 @@ export const Main = () => (
       name="Calculator"
       component={CalculatorComp}
       options={{
-        headerTitle: 'Calculator',
-        headerShown: false,
+        headerTitle: 'Insert',
       }}
     />
   </MainStack.Navigator>
