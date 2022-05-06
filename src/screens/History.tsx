@@ -1,10 +1,8 @@
 import React from 'react';
 import { StyleSheet, FlatList, TouchableOpacity, Text } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import { ListItem, ListSeparator } from '../components/List';
-import { MainStackParams } from '../navigation/Main';
 import { windowWidth } from '../constants/dimensions';
 
 const styles = StyleSheet.create({
@@ -41,7 +39,7 @@ const screens = [
 ];
 
 type Props = {
-  navigation: StackNavigationProp<MainStackParams, 'History'>;
+  navigation: any;
 };
 
 export const History = ({ navigation }: Props) => {
@@ -59,10 +57,12 @@ export const History = ({ navigation }: Props) => {
           <ListItem
             title={item.title}
             subtitle={item.subtitle}
-            // @ts-ignore
-            // Disabling the next line because all the item.targets are valid - that data just
-            // isn't getting picked up by TypeScript
-            onPress={() => navigation.push('Solution')}
+            onPress={() =>
+              navigation.navigate('Solution', {
+                screen: 'Solution',
+                params: { solution: 'x1=1 , x2=4', equation: 'x^2+1=13' },
+              })
+            }
           />
         )}
         ItemSeparatorComponent={ListSeparator}

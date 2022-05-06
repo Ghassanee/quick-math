@@ -1,13 +1,92 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+/* eslint-disable no-empty */
+import React, { useEffect, useState } from 'react';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { LinearGradient } from 'expo-linear-gradient';
+// @ts-ignore
+import AlgebraLatex from 'algebra-latex';
 import colors from '../constants/colors';
 import { MainStackParams } from '../navigation/Main';
 import { windowWidth } from '../constants/dimensions';
 import { Button } from '../components/Button';
 
+type Props = {
+  navigation: StackNavigationProp<MainStackParams, 'Solution'>;
+  route: any;
+};
+
+export const Solution = ({ route, navigation }: Props) => {
+  console.log(route);
+  const { equation, solution } = route.params.params;
+
+  const [imageEquation, setimageEquation] = useState(
+    'https://latex.codecogs.com/gif.latex?\\huge&space;2X + 4 = 0',
+  );
+  const [imageSolution, setimageSolution] = useState(
+    'https://latex.codecogs.com/gif.latex?\\huge&space;exp(x)+log(y)=2',
+  );
+  useEffect(() => {
+    try {
+      const equation_ = new AlgebraLatex().parseMath(equation.toLowerCase());
+
+      setimageEquation(
+        `https://latex.codecogs.com/gif.latex?\\huge&space;${equation_.toLatex()}`,
+      );
+    } catch (error) {
+      setimageEquation(
+        `https://latex.codecogs.com/gif.latex?\\huge&space;${equation.toLowerCase()}`,
+      );
+    }
+    try {
+      const solution_ = new AlgebraLatex().parseMath(solution.toLowerCase());
+      setimageSolution(
+        `https://latex.codecogs.com/gif.latex?\\huge&space;${solution_.toLatex()}`,
+      );
+    } catch (error) {
+      setimageSolution(
+        `https://latex.codecogs.com/gif.latex?\\huge&space;${solution.toLowerCase()}`,
+      );
+    }
+  }, []);
+
+  return (
+    <LinearGradient colors={['#ADC4F1', '#91ACDF40']} style={styles.container}>
+      <View style={styles.inner_container}>
+        <View>
+          <Text style={styles.title_text}>Your equation :</Text>
+          <Image
+            style={styles.equation}
+            source={{
+              uri: imageEquation,
+            }}
+            resizeMode="center"
+          />
+        </View>
+        <View>
+          <Text style={styles.title_text}>Your solution :</Text>
+          <Image
+            style={styles.solution}
+            source={{
+              uri: imageSolution,
+            }}
+            resizeMode="center"
+          />
+        </View>
+        <View style={styles.button}>
+          <Button
+            name="Steps"
+            onPress={() => {
+              navigation.push('Steps');
+            }}
+          />
+        </View>
+      </View>
+      <Text style={styles.title}>Graph</Text>
+      <View style={styles.inner_container} />
+    </LinearGradient>
+  );
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -23,7 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  inner_containrt: {
+  inner_container: {
     backgroundColor: colors.white,
     borderRadius: 20,
     marginVertical: 7,
@@ -41,9 +120,12 @@ const styles = StyleSheet.create({
     minHeight: 300,
   },
   equation: {
-    fontSize: 18,
-    textAlign: 'center',
     marginTop: 10,
+    height: 50,
+  },
+  solution: {
+    marginTop: 10,
+    height: 50,
   },
   button: {
     alignSelf: 'center',
@@ -58,34 +140,3 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-
-type Props = {
-  navigation: StackNavigationProp<MainStackParams, 'Solution'>;
-};
-
-export const Solution = ({ navigation }: Props) => {
-  return (
-    <LinearGradient colors={['#ADC4F1', '#91ACDF40']} style={styles.container}>
-      <View style={styles.inner_containrt}>
-        <View>
-          <Text style={styles.title_text}>Your equation :</Text>
-          <Text style={styles.equation}>2X + 4 = 0</Text>
-        </View>
-        <View>
-          <Text style={styles.title_text}>Your solution :</Text>
-          <Text style={styles.equation}>X1 = 4 , X2 = 2</Text>
-        </View>
-        <View style={styles.button}>
-          <Button
-            name="Steps"
-            onPress={() => {
-              navigation.push('Steps');
-            }}
-          />
-        </View>
-      </View>
-      <Text style={styles.title}>Graph</Text>
-      <View style={styles.inner_containrt} />
-    </LinearGradient>
-  );
-};

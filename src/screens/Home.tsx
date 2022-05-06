@@ -103,7 +103,9 @@ export const Home = ({ navigation }: Props) => {
       />
       <IconWithText
         onPress={() => {
-          navigation.push('Calculator');
+          navigation.push('Calculator', {
+            name: 'lol',
+          });
         }}
         title="Calculator"
         icon={require('../../assets/icons/calculator.png')}

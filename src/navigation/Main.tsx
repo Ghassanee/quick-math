@@ -9,15 +9,15 @@ import TakePicture from '../screens/TakePicture';
 import CalculatorComp from '../screens/CalculatorComp';
 
 export type MainStackParams = {
-  Home: undefined;
-  TextDemo: undefined;
-  History: undefined;
-  FormDemo: undefined;
-  ButtonDemo: undefined;
-  Solution: undefined;
-  Steps: undefined;
-  TakePicture: undefined;
-  Calculator: undefined;
+  Home: any;
+  TextDemo: any;
+  History: any;
+  FormDemo: any;
+  ButtonDemo: any;
+  Solution: any;
+  Steps: any;
+  TakePicture: any;
+  Calculator: any;
 };
 
 const MainStack = createStackNavigator<MainStackParams>();
