@@ -7,8 +7,9 @@ import * as ImagePicker from 'expo-image-picker';
 import colors from '../constants/colors';
 import { MainStackParams } from '../navigation/Main';
 import { IconWithText } from '../components/IconWithText';
-import { windowHeight } from '../constants/dimensions';
+import { windowHeight, windowWidth } from '../constants/dimensions';
 import { MyText } from '../components/MyText';
+import OriginalCamera from '../components/Camera';
 
 const styles = StyleSheet.create({
   container: {
@@ -56,6 +57,7 @@ type Props = {
 
 export const Home = ({ navigation }: Props) => {
   const [image, setImage] = useState<any>(null);
+  const [flashMode, setFlashMode] = useState('off');
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -86,15 +88,25 @@ export const Home = ({ navigation }: Props) => {
       setImage(result.uri);
     }
   };
-
+  const __handleFlashMode = () => {
+    if (flashMode === 'on') {
+      setFlashMode('off');
+    } else if (flashMode === 'off') {
+      setFlashMode('on');
+    } else {
+      setFlashMode('auto');
+    }
+  };
   return (
-    <LinearGradient colors={['#ADC4F1', '#91ACDF40']} style={styles.container}>
+    <View>
       <IconWithText
-        onPress={() => {
-          navigation.push('History');
-        }}
-        title="History"
-        icon={require('../../assets/icons/history.png')}
+        onPress={__handleFlashMode}
+        title="Flash"
+        icon={
+          flashMode === 'off'
+            ? require('../../assets/icons/flashOn.png')
+            : require('../../assets/icons/flashOff.png')
+        }
         style={styles.history}
       />
       <IconWithText
@@ -119,16 +131,17 @@ export const Home = ({ navigation }: Props) => {
         icon={require('../../assets/icons/image.png')}
         style={styles.image}
       />
-
-      <View style={styles.take_picture_container}>
-        <MyText style={styles.take_picture_text}>Tap to take a picture </MyText>
-        <TouchableOpacity onPress={takeImage}>
-          <Image
-            style={styles.take_picture}
-            source={require('../../assets/take_picture.png')}
-          />
-        </TouchableOpacity>
+      <View
+        style={{
+          position: 'absolute',
+          flex: 1,
+          zIndex: 1,
+          height: windowHeight,
+          width: windowWidth,
+        }}
+      >
+        <OriginalCamera flashMode={flashMode} />
       </View>
-    </LinearGradient>
+    </View>
   );
 };

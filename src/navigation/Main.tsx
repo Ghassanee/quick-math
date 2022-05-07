@@ -5,7 +5,6 @@ import { Home } from '../screens/Home';
 import { History } from '../screens/History';
 import { Solution } from '../screens/Solution';
 import { Steps } from '../screens/Steps';
-import TakePicture from '../screens/TakePicture';
 import CalculatorComp from '../screens/CalculatorComp';
 
 export type MainStackParams = {
@@ -16,7 +15,6 @@ export type MainStackParams = {
   ButtonDemo: any;
   Solution: any;
   Steps: any;
-  TakePicture: any;
   Calculator: any;
 };
 
@@ -64,14 +62,7 @@ export const Main = () => (
         headerTransparent: true,
       }}
     />
-    <MainStack.Screen
-      name="TakePicture"
-      component={TakePicture}
-      options={{
-        headerTitle: 'TakePicture',
-        headerShown: false,
-      }}
-    />
+
     <MainStack.Screen
       name="Calculator"
       component={CalculatorComp}

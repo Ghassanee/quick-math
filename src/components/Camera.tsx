@@ -18,12 +18,11 @@ import { getEquation } from '../api/readImage';
 import { MyText } from './MyText';
 
 let camera: Camera;
-export default function OriginalCamera() {
-  const [startCamera, setStartCamera] = useState(false);
+export default function OriginalCamera(props: any) {
+  const [startCamera, setStartCamera] = useState(true);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState<any>(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
-  const [flashMode, setFlashMode] = useState('off');
   const [takingPicture, setTakingPicture] = useState(false);
 
   const __startCamera = async () => {
@@ -51,15 +50,7 @@ export default function OriginalCamera() {
     setPreviewVisible(false);
     __startCamera();
   };
-  const __handleFlashMode = () => {
-    if (flashMode === 'on') {
-      setFlashMode('off');
-    } else if (flashMode === 'off') {
-      setFlashMode('on');
-    } else {
-      setFlashMode('auto');
-    }
-  };
+
   const __switchCamera = () => {
     if (cameraType === 'back') {
       setCameraType(Camera.Constants.Type.front);
@@ -87,7 +78,7 @@ export default function OriginalCamera() {
             <Camera
               type={cameraType}
               // @ts-ignore
-              flashMode={flashMode}
+              flashMode={props.flashMode}
               style={{ flex: 1 }}
               ref={r => {
                 // @ts-ignore
@@ -112,7 +103,7 @@ export default function OriginalCamera() {
                     justifyContent: 'space-between',
                   }}
                 >
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     onPress={__handleFlashMode}
                     // @ts-ignore
                     style={{
@@ -129,8 +120,8 @@ export default function OriginalCamera() {
                     >
                       ⚡️
                     </MyText>
-                  </TouchableOpacity>
-                  <TouchableOpacity
+                  </TouchableOpacity> */}
+                  {/* <TouchableOpacity
                     onPress={__switchCamera}
                     // @ts-ignore
                     style={{
@@ -147,7 +138,7 @@ export default function OriginalCamera() {
                     >
                       {cameraType === 'front' ? '🤳' : '📷'}
                     </MyText>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
                 <View
                   style={{
@@ -243,68 +234,68 @@ const CameraPreview = ({ photo, retakePicture, savePhoto }: any) => {
     >
       {
         // @ts-ignore
-      }
-      <ImageBackground
-        source={{ uri: photo && photo.uri }}
-        style={{
-          flex: 1,
-        }}
-      >
-        <View
+        <ImageBackground
+          source={{ uri: photo && photo.uri }}
           style={{
             flex: 1,
-            flexDirection: 'column',
-            padding: 15,
-            justifyContent: 'flex-end',
           }}
         >
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
+              flex: 1,
+              flexDirection: 'column',
+              padding: 15,
+              justifyContent: 'flex-end',
             }}
           >
-            <TouchableOpacity
-              onPress={retakePicture}
+            <View
               style={{
-                width: 130,
-                height: 40,
-
-                alignItems: 'center',
-                borderRadius: 4,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
               }}
             >
-              <MyText
+              <TouchableOpacity
+                onPress={retakePicture}
                 style={{
-                  color: '#fff',
-                  fontSize: 20,
-                }}
-              >
-                Re-take
-              </MyText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={savePhoto}
-              style={{
-                width: 130,
-                height: 40,
+                  width: 130,
+                  height: 40,
 
-                alignItems: 'center',
-                borderRadius: 4,
-              }}
-            >
-              <MyText
-                style={{
-                  color: '#fff',
-                  fontSize: 20,
+                  alignItems: 'center',
+                  borderRadius: 4,
                 }}
               >
-                save photo
-              </MyText>
-            </TouchableOpacity>
+                <MyText
+                  style={{
+                    color: '#fff',
+                    fontSize: 20,
+                  }}
+                >
+                  Re-take
+                </MyText>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={savePhoto}
+                style={{
+                  width: 130,
+                  height: 40,
+
+                  alignItems: 'center',
+                  borderRadius: 4,
+                }}
+              >
+                <MyText
+                  style={{
+                    color: '#fff',
+                    fontSize: 20,
+                  }}
+                >
+                  save photo
+                </MyText>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ImageBackground>
+        </ImageBackground>
+      }
     </View>
   );
 };

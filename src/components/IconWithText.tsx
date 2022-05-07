@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import {
   TouchableOpacity,
@@ -7,6 +8,7 @@ import {
   ViewStyle,
   Image,
   ImageSourcePropType,
+  Text,
 } from 'react-native';
 
 import colors from '../constants/colors';
@@ -15,6 +17,13 @@ import { MyText } from './MyText';
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    backgroundColor: '#ffffff50',
+    height: 40,
+    width: 40,
+    justifyContent: 'center',
+    borderRadius: 25,
+    position: 'absolute',
+    zIndex: 2,
   },
 
   text: {
@@ -22,7 +31,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   icon: {
-    height: 40,
+    height: 20,
   },
 });
 
@@ -40,12 +49,10 @@ export const IconWithText = ({
   style,
 }: IconWithTextProps) => {
   const containerStyles: StyleProp<ViewStyle>[] = [styles.container, style];
-  const textStyles: StyleProp<TextStyle>[] = [styles.text];
 
   return (
     <TouchableOpacity onPress={onPress} style={containerStyles}>
       <Image style={styles.icon} source={icon} resizeMode="contain" />
-      <MyText style={textStyles}>{title}</MyText>
     </TouchableOpacity>
   );
 };
