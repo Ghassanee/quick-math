@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import colors from '../constants/colors';
+import { MyText } from './MyText';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,7 +52,7 @@ export const Button = ({
 
   return (
     <TouchableOpacity onPress={onPress} style={containerStyles}>
-      <Text style={textStyles}>{name}</Text>
+      <MyText style={textStyles}>{name}</MyText>
     </TouchableOpacity>
   );
 };

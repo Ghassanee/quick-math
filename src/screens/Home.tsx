@@ -8,6 +8,7 @@ import colors from '../constants/colors';
 import { MainStackParams } from '../navigation/Main';
 import { IconWithText } from '../components/IconWithText';
 import { windowHeight } from '../constants/dimensions';
+import { MyText } from '../components/MyText';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,6 +46,7 @@ const styles = StyleSheet.create({
   take_picture_text: {
     fontSize: 22,
     fontWeight: '700',
+    fontFamily: 'My-Font-Bold',
   },
 });
 
@@ -119,7 +121,7 @@ export const Home = ({ navigation }: Props) => {
       />
 
       <View style={styles.take_picture_container}>
-        <Text style={styles.take_picture_text}>Tap to take a picture </Text>
+        <MyText style={styles.take_picture_text}>Tap to take a picture </MyText>
         <TouchableOpacity onPress={takeImage}>
           <Image
             style={styles.take_picture}

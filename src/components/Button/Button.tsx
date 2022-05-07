@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import { MyText } from '../MyText';
 
 const styles = {
   root: {
@@ -29,7 +30,7 @@ const Button = ({
   const txtStyle = [styles.text, { color }, textStyle];
   return (
     <TouchableOpacity onPress={onPress} style={btnStyle}>
-      {title && <Text style={txtStyle}>{title}</Text>}
+      {title && <MyText style={txtStyle}>{title}</MyText>}
       {children}
     </TouchableOpacity>
   );

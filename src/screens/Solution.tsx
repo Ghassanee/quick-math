@@ -13,6 +13,7 @@ import colors from '../constants/colors';
 import { MainStackParams } from '../navigation/Main';
 import { windowWidth } from '../constants/dimensions';
 import { Button } from '../components/Button';
+import { MyText } from '../components/MyText';
 
 type Props = {
   navigation: StackNavigationProp<MainStackParams, 'Solution'>;
@@ -88,7 +89,7 @@ export const Solution = ({ route, navigation }: Props) => {
     <LinearGradient colors={['#ADC4F1', '#91ACDF40']} style={styles.container}>
       <View style={styles.inner_container}>
         <View>
-          <Text style={styles.title_text}>Your equation :</Text>
+          <MyText style={styles.title_text}>Your equation :</MyText>
           <Image
             style={styles.equation}
             source={{
@@ -98,7 +99,7 @@ export const Solution = ({ route, navigation }: Props) => {
           />
         </View>
         <View>
-          <Text style={styles.title_text}>Your solution :</Text>
+          <MyText style={styles.title_text}>Your solution :</MyText>
           <Image
             style={styles.solution}
             source={{
@@ -116,19 +117,22 @@ export const Solution = ({ route, navigation }: Props) => {
           />
         </View>
       </View>
-      <Text style={styles.title}>Graph</Text>
-      <WebView
-        containerStyle={[
-          styles.inner_container,
-          {
-            borderRadius: 25,
-            padding: 10,
-          },
-        ]}
-        source={{
-          html: renderHtmlPlot(),
-        }}
-      />
+      <MyText style={styles.title}>Graph</MyText>
+      {
+        // @ts-ignore
+        <WebView
+          containerStyle={[
+            styles.inner_container,
+            {
+              borderRadius: 25,
+              padding: 10,
+            },
+          ]}
+          source={{
+            html: renderHtmlPlot(),
+          }}
+        />
+      }
     </LinearGradient>
   );
 };

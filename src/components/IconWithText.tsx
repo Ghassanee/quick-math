@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   TouchableOpacity,
-  Text,
   StyleSheet,
   StyleProp,
   TextStyle,
@@ -11,6 +10,7 @@ import {
 } from 'react-native';
 
 import colors from '../constants/colors';
+import { MyText } from './MyText';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,7 +45,7 @@ export const IconWithText = ({
   return (
     <TouchableOpacity onPress={onPress} style={containerStyles}>
       <Image style={styles.icon} source={icon} resizeMode="contain" />
-      <Text style={textStyles}>{title}</Text>
+      <MyText style={textStyles}>{title}</MyText>
     </TouchableOpacity>
   );
 };

@@ -15,6 +15,7 @@ import {
 import { Camera } from 'expo-camera';
 import Loader from './Loader';
 import { getEquation } from '../api/readImage';
+import { MyText } from './MyText';
 
 let camera: Camera;
 export default function OriginalCamera() {
@@ -121,13 +122,13 @@ export default function OriginalCamera() {
                       width: 25,
                     }}
                   >
-                    <Text
+                    <MyText
                       style={{
                         fontSize: 20,
                       }}
                     >
                       ⚡️
-                    </Text>
+                    </MyText>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={__switchCamera}
@@ -139,13 +140,13 @@ export default function OriginalCamera() {
                       width: 25,
                     }}
                   >
-                    <Text
+                    <MyText
                       style={{
                         fontSize: 20,
                       }}
                     >
                       {cameraType === 'front' ? '🤳' : '📷'}
-                    </Text>
+                    </MyText>
                   </TouchableOpacity>
                 </View>
                 <View
@@ -203,7 +204,7 @@ export default function OriginalCamera() {
               height: 40,
             }}
           >
-            <Text
+            <MyText
               style={{
                 color: '#fff',
                 fontWeight: 'bold',
@@ -211,7 +212,7 @@ export default function OriginalCamera() {
               }}
             >
               Take picture
-            </Text>
+            </MyText>
           </TouchableOpacity>
         </View>
       )}
@@ -273,14 +274,14 @@ const CameraPreview = ({ photo, retakePicture, savePhoto }: any) => {
                 borderRadius: 4,
               }}
             >
-              <Text
+              <MyText
                 style={{
                   color: '#fff',
                   fontSize: 20,
                 }}
               >
                 Re-take
-              </Text>
+              </MyText>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={savePhoto}
@@ -292,14 +293,14 @@ const CameraPreview = ({ photo, retakePicture, savePhoto }: any) => {
                 borderRadius: 4,
               }}
             >
-              <Text
+              <MyText
                 style={{
                   color: '#fff',
                   fontSize: 20,
                 }}
               >
                 save photo
-              </Text>
+              </MyText>
             </TouchableOpacity>
           </View>
         </View>
