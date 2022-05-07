@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-empty */
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
@@ -6,6 +8,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
 // @ts-ignore
 import AlgebraLatex from 'algebra-latex';
+import { WebView } from 'react-native-webview';
 import colors from '../constants/colors';
 import { MainStackParams } from '../navigation/Main';
 import { windowWidth } from '../constants/dimensions';
@@ -17,7 +20,6 @@ type Props = {
 };
 
 export const Solution = ({ route, navigation }: Props) => {
-  console.log(route);
   const { equation, solution } = route.params.params;
 
   const [imageEquation, setimageEquation] = useState(
@@ -49,7 +51,39 @@ export const Solution = ({ route, navigation }: Props) => {
       );
     }
   }, []);
-
+  const renderHtmlPlot = () => {
+    return `<!DOCTYPE html>
+  <html lang="en">
+    <head> </head>
+    <body>
+      <div id="quadratic"></div>
+      <p>
+        <script src="https://unpkg.com/function-plot/dist/function-plot.js"></script>
+        <script>
+          functionPlot({
+            target: '#quadratic',
+            width:${1000},
+  height:700,
+  grid: true,
+            data: [
+              {
+                fn: '${equation.split('=')[0]}',
+              },
+            ],
+          });
+        </script>
+        <style>
+        text {
+          font-size: 24px;
+          fill: $text;
+          font-family: "Computer Modern Serif", "Merriweather", "Georgia", serif;
+        }
+        
+        </style>
+      </p>
+    </body>
+  </html>`;
+  };
   return (
     <LinearGradient colors={['#ADC4F1', '#91ACDF40']} style={styles.container}>
       <View style={styles.inner_container}>
@@ -83,10 +117,22 @@ export const Solution = ({ route, navigation }: Props) => {
         </View>
       </View>
       <Text style={styles.title}>Graph</Text>
-      <View style={styles.inner_container} />
+      <WebView
+        containerStyle={[
+          styles.inner_container,
+          {
+            borderRadius: 25,
+            padding: 10,
+          },
+        ]}
+        source={{
+          html: renderHtmlPlot(),
+        }}
+      />
     </LinearGradient>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
