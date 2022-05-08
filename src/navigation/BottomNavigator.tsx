@@ -1,10 +1,11 @@
 import React from 'react';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { View } from 'react-native';
 import { Main } from './Main';
 import { History } from '../screens/History';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 export function BottomNavigator() {
   return (
@@ -13,6 +14,25 @@ export function BottomNavigator() {
       initialRouteName="Feed"
       activeColor="#e91e63"
       barStyle={{ backgroundColor: '#fff' }}
+      screenOptions={{
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontFamily: 'My-Font',
+          textTransform: 'capitalize',
+          margin: 0,
+          padding: 0,
+        },
+        tabBarItemStyle: { height: 50, margin: 0, padding: 10 },
+        tabBarStyle: {
+          backgroundColor: '#fff',
+          margin: 0,
+          paddingTop: 5,
+          paddingBottom: 5,
+        },
+        swipeEnabled: false,
+        tabBarIndicator: () => <View />,
+      }}
+      tabBarPosition="bottom"
     >
       <Tab.Screen
         name="Home"
@@ -21,7 +41,11 @@ export function BottomNavigator() {
           tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
             // @ts-ignore
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+            <MaterialCommunityIcons
+              name="camera-outline"
+              color={color}
+              size={22}
+            />
           ),
         }}
       />
@@ -32,7 +56,7 @@ export function BottomNavigator() {
           tabBarLabel: 'History',
           tabBarIcon: ({ color }) => (
             // @ts-ignore
-            <MaterialCommunityIcons name="history" color={color} size={26} />
+            <MaterialCommunityIcons name="history" color={color} size={22} />
           ),
         }}
       />
