@@ -8,6 +8,7 @@ export function getTime(date: any) {
     return '';
   }
   const time = new Date(date);
+  console.log(time);
 
   return time.toJSON().slice(0, 10).replace(/-/g, '/') !==
     new Date().toJSON().slice(0, 10).replace(/-/g, '/')
@@ -16,11 +17,11 @@ export function getTime(date: any) {
 }
 
 export function formatTime(someDate: any) {
-  const b = new Date(someDate);
+  const b: any = new Date(someDate);
   const today = new Date();
   const yesterday = new Date();
   const dayBeforeYesterday = new Date();
-
+  const now: any = new Date();
   yesterday.setDate(today.getDate() - 1);
   dayBeforeYesterday.setDate(today.getDate() - 2);
 
@@ -30,7 +31,13 @@ export function formatTime(someDate: any) {
   const Yesterday =
     b.getTime() < yesterday.getTime() &&
     b.getTime() > dayBeforeYesterday.getTime();
-  if (Today) return 'Today';
+  if (Today) {
+    const d = new Date(now - b);
+    if (d.getHours() > 1) {
+      return `${d.getHours()} hours ago`;
+    }
+    return `${d.getMinutes()} minutes ago`;
+  }
   if (Yesterday) return 'Yesterday';
   return getTime(someDate);
 }

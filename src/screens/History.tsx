@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
-import { StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, FlatList, TouchableOpacity, View } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import { ListItem, ListSeparator } from '../components/List';
@@ -11,6 +12,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: windowWidth,
     paddingTop: 50,
+    backgroundColor: '#fff',
   },
   container_content: {
     alignItems: 'center',
@@ -45,10 +47,7 @@ type Props = {
 
 export const History = ({ navigation }: Props) => {
   return (
-    <LinearGradient colors={['#ADC4F1', '#91ACDF40']} style={styles.container}>
-      <TouchableOpacity onPress={() => {}} style={styles.clear_text}>
-        <MyText>Clear all</MyText>
-      </TouchableOpacity>
+    <View style={styles.container}>
       <FlatList
         style={styles.container}
         data={screens}
@@ -71,6 +70,6 @@ export const History = ({ navigation }: Props) => {
         ListHeaderComponent={ListSeparator}
         ListFooterComponent={ListSeparator}
       />
-    </LinearGradient>
+    </View>
   );
 };

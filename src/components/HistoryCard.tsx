@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import {
   TouchableOpacity,
@@ -34,20 +35,16 @@ export const HistoryCard = ({
         style={styles.image_container}
       >
         <Image
-          resizeMode="contain"
+          resizeMode="repeat"
+          resizeMethod="auto"
           style={styles.imageEquation}
-          source={{ uri: imageEquation }}
+          // source={{ uri: imageEquation }}
+          source={require('../../assets/example.jpeg')}
         />
       </TouchableOpacity>
       <View style={styles.bottom_bar}>
-        <TouchableOpacity onPress={onPress}>
-          <Image
-            style={styles.delete}
-            source={require('../../assets/icons/delete.png')}
-          />
-        </TouchableOpacity>
         <MyText style={textStyles}>
-          {formatTime('Sat May 01 2022 06:19:27 GMT+0000 (GMT)')}
+          {formatTime('Sat May 08 2022 12:49:27 GMT+0000 (GMT)')}
         </MyText>
       </View>
     </View>
@@ -55,10 +52,17 @@ export const HistoryCard = ({
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.secondarybg,
-    borderRadius: 20,
     marginVertical: 7,
     width: windowWidth - 30,
+  },
+  image_container: {
+    borderRadius: 20,
+    backgroundColor: '#fff',
+    height: 100,
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#00000040',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -68,22 +72,19 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 7,
   },
-  image_container: {
-    borderRadius: 20,
-    backgroundColor: colors.primarybg,
-    height: 100,
-    justifyContent: 'center',
-  },
   imageEquation: {
     marginTop: 10,
-    height: 25,
   },
   text: {
-    color: '#000',
-    alignSelf: 'center',
-    fontSize: 18,
+    color: '#000000',
+    alignSelf: 'flex-start',
+    fontSize: 12,
     fontWeight: '500',
+    marginTop: 2,
+    marginLeft: 10,
+    fontFamily: 'My-Font-Thin',
   },
+
   delete: {
     alignSelf: 'flex-end',
     right: 10,
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   bottom_bar: {
-    height: 40,
+    height: 20,
     justifyContent: 'center',
   },
 });

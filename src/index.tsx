@@ -17,6 +17,10 @@ export default function App() {
           require('../assets/fonts/Poppins-Regular.ttf'),
         );
         await Font.loadAsync(
+          'My-Font-Thin',
+          require('../assets/fonts/Poppins-Thin.ttf'),
+        );
+        await Font.loadAsync(
           'My-Font-Bold',
           require('../assets/fonts/Poppins-Bold.ttf'),
         );
