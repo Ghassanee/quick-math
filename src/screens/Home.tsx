@@ -67,8 +67,6 @@ export const Home = ({ navigation }: Props) => {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
     }
@@ -81,8 +79,6 @@ export const Home = ({ navigation }: Props) => {
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
 
     if (!result.cancelled) {
       setImage(result.uri);

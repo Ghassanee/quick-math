@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,6 +13,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Camera } from 'expo-camera';
+import { useIsFocused } from '@react-navigation/native';
 import Loader from './Loader';
 import { getEquation } from '../api/readImage';
 import { MyText } from './MyText';
@@ -24,15 +25,23 @@ export default function OriginalCamera(props: any) {
   const [capturedImage, setCapturedImage] = useState<any>(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [takingPicture, setTakingPicture] = useState(false);
-
+  const isFocused = useIsFocused();
   const __startCamera = async () => {
-    const { status } = await Camera.getCameraPermissionsAsync();
+    const { status } = await Camera.requestCameraPermissionsAsync();
+
     if (status === 'granted') {
       setStartCamera(true);
     } else {
       Alert.alert('Access denied');
     }
   };
+  useEffect(() => {
+    if (isFocused) {
+      __startCamera();
+    } else {
+      setStartCamera(false);
+    }
+  }, [isFocused]);
 
   const __takePicture = async () => {
     setTakingPicture(true);
@@ -177,35 +186,9 @@ export default function OriginalCamera(props: any) {
       ) : (
         <View
           style={{
-            flex: 1,
-            backgroundColor: '#fff',
-            justifyContent: 'center',
-            alignItems: 'center',
+            backgroundColor: '#000',
           }}
-        >
-          <TouchableOpacity
-            onPress={__startCamera}
-            style={{
-              width: 130,
-              borderRadius: 4,
-              backgroundColor: '#14274e',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 40,
-            }}
-          >
-            <MyText
-              style={{
-                color: '#fff',
-                fontWeight: 'bold',
-                textAlign: 'center',
-              }}
-            >
-              Take picture
-            </MyText>
-          </TouchableOpacity>
-        </View>
+        />
       )}
 
       <StatusBar style="auto" />

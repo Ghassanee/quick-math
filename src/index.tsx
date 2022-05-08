@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
-import { Main } from './navigation/Main';
+import { BottomNavigator } from './navigation/BottomNavigator';
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -41,7 +41,7 @@ export default function App() {
     <>
       <StatusBar style="auto" />
       <NavigationContainer>
-        <Main />
+        <BottomNavigator />
       </NavigationContainer>
     </>
   );
