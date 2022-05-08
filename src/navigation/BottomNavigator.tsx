@@ -1,11 +1,12 @@
 import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { View } from 'react-native';
+import { Vibration, View } from 'react-native';
 import { Main } from './Main';
 import { History } from '../screens/History';
 
 const Tab = createMaterialTopTabNavigator();
+const ONE_SECOND_IN_MS = 1000;
 
 export function BottomNavigator() {
   return (
@@ -31,6 +32,7 @@ export function BottomNavigator() {
         },
         swipeEnabled: false,
         tabBarIndicator: () => <View />,
+        tabBarPressColor: 'transparent',
       }}
       tabBarPosition="bottom"
     >
@@ -48,6 +50,13 @@ export function BottomNavigator() {
             />
           ),
         }}
+        listeners={{
+          tabPress: () => {
+            console.log('sss');
+
+            Vibration.vibrate(0.1 * ONE_SECOND_IN_MS);
+          },
+        }}
       />
       <Tab.Screen
         name="History"
@@ -58,6 +67,13 @@ export function BottomNavigator() {
             // @ts-ignore
             <MaterialCommunityIcons name="history" color={color} size={22} />
           ),
+        }}
+        listeners={{
+          tabPress: () => {
+            console.log('sss');
+
+            Vibration.vibrate(0.1 * ONE_SECOND_IN_MS);
+          },
         }}
       />
     </Tab.Navigator>

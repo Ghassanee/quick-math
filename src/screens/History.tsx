@@ -14,12 +14,22 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     backgroundColor: '#fff',
   },
+  container_flatlist: {
+    paddingTop: 20,
+  },
   container_content: {
     alignItems: 'center',
   },
   clear_text: {
     alignSelf: 'flex-end',
     marginRight: 15,
+  },
+  title: {
+    fontSize: 22,
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderColor: '#00000010',
+    textAlign: 'center',
   },
 });
 
@@ -48,8 +58,9 @@ type Props = {
 export const History = ({ navigation }: Props) => {
   return (
     <View style={styles.container}>
+      <MyText style={styles.title}>History</MyText>
       <FlatList
-        style={styles.container}
+        style={styles.container_flatlist}
         data={screens}
         contentContainerStyle={styles.container_content}
         keyExtractor={item => item.title}
@@ -67,8 +78,6 @@ export const History = ({ navigation }: Props) => {
           />
         )}
         ItemSeparatorComponent={ListSeparator}
-        ListHeaderComponent={ListSeparator}
-        ListFooterComponent={ListSeparator}
       />
     </View>
   );

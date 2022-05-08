@@ -18,12 +18,15 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     backgroundColor: '#ffffff50',
-    height: 40,
-    width: 40,
+    height: 35,
+    width: 35,
     justifyContent: 'center',
-    borderRadius: 25,
+    borderRadius: 15,
     position: 'absolute',
     zIndex: 2,
+    shadowColor: '#000',
+
+    elevation: 1,
   },
 
   text: {
@@ -31,7 +34,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   icon: {
-    height: 20,
+    height: 15,
   },
 });
 

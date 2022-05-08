@@ -170,11 +170,15 @@ export default function OriginalCamera(props: any) {
                     <TouchableOpacity
                       onPress={__takePicture}
                       style={{
-                        width: 70,
-                        height: 70,
+                        width: 80,
+                        height: 80,
                         bottom: 0,
                         borderRadius: 50,
                         backgroundColor: '#fff',
+                        borderWidth: 3,
+                        borderColor: 'tomato',
+                        elevation: 7,
+                        shadowColor: '#000',
                       }}
                     />
                   </View>

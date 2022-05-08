@@ -56,13 +56,11 @@ const styles = StyleSheet.create({
     width: windowWidth - 30,
   },
   image_container: {
-    borderRadius: 20,
+    borderRadius: 10,
     backgroundColor: '#fff',
-    height: 100,
+    height: 120,
     justifyContent: 'center',
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: '#00000040',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -70,7 +68,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
-    elevation: 7,
+    elevation: 2,
   },
   imageEquation: {
     marginTop: 10,
@@ -78,10 +76,10 @@ const styles = StyleSheet.create({
   text: {
     color: '#000000',
     alignSelf: 'flex-start',
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '500',
     marginTop: 2,
-    marginLeft: 10,
+    marginLeft: 5,
     fontFamily: 'My-Font-Thin',
   },
 
