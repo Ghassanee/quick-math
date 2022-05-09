@@ -2,11 +2,10 @@ import { ActivityIndicator, View } from 'react-native';
 import React from 'react';
 import { windowHeight, windowWidth } from '../constants/dimensions';
 
-export default function Loader({ active }: any) {
+export default function Loader() {
   return (
     <View
       style={{
-        opacity: active ? 1 : 0,
         position: 'absolute',
         zIndex: 3,
         backgroundColor: '#00000080',

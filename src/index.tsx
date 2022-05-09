@@ -3,12 +3,14 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
+import { LogBox } from 'react-native';
 import { BottomNavigator } from './navigation/BottomNavigator';
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
+    LogBox.ignoreAllLogs(true);
     async function prepare() {
       try {
         await SplashScreen.preventAutoHideAsync();
@@ -43,10 +45,10 @@ export default function App() {
 
   return (
     <>
-      <StatusBar style="auto" />
       <NavigationContainer>
         <BottomNavigator />
       </NavigationContainer>
+      <StatusBar style="dark" backgroundColor="#ffffff90" />
     </>
   );
 }

@@ -123,8 +123,7 @@ export default function OriginalCamera({ navigation, flashMode, onLoad }: any) {
           </View>
         </View>
       </Camera>
-
-      <StatusBar style="auto" />
+      <StatusBar style="dark" backgroundColor="#ffffff90" />
     </View>
   );
 }

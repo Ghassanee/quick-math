@@ -125,7 +125,7 @@ export const Home = ({ navigation }: Props) => {
         icon={require('../../assets/icons/image.png')}
         style={styles.image}
       />
-      <Loader active={loading} />
+      {loading && <Loader />}
 
       <OriginalCamera
         onLoad={(val: boolean) => setLoading(val)}
