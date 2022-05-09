@@ -2,10 +2,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-empty */
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { LinearGradient } from 'expo-linear-gradient';
 // @ts-ignore
 import AlgebraLatex from 'algebra-latex';
 import { WebView } from 'react-native-webview';
@@ -64,8 +63,8 @@ export const Solution = ({ route, navigation }: Props) => {
           functionPlot({
             target: '#quadratic',
             width:${1000},
-  height:700,
-  grid: true,
+            height:700,
+            grid: true,
             data: [
               {
                 fn: '${equation.split('=')[0]}',
@@ -77,7 +76,7 @@ export const Solution = ({ route, navigation }: Props) => {
         text {
           font-size: 24px;
           fill: $text;
-          font-family: "Computer Modern Serif", "Merriweather", "Georgia", serif;
+          font-family: "My-Font-Regular", "Merriweather", "Georgia", serif;
         }
         
         </style>
@@ -86,7 +85,10 @@ export const Solution = ({ route, navigation }: Props) => {
   </html>`;
   };
   return (
-    <LinearGradient colors={['#ADC4F1', '#91ACDF40']} style={styles.container}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.scrollContainer}
+    >
       <View style={styles.inner_container}>
         <View>
           <MyText style={styles.title_text}>Your equation :</MyText>
@@ -124,8 +126,8 @@ export const Solution = ({ route, navigation }: Props) => {
           containerStyle={[
             styles.inner_container,
             {
-              borderRadius: 25,
               padding: 10,
+              marginTop: 0,
             },
           ]}
           source={{
@@ -133,48 +135,42 @@ export const Solution = ({ route, navigation }: Props) => {
           }}
         />
       }
-    </LinearGradient>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    backgroundColor: '#fff',
+    width: windowWidth,
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
-    width: windowWidth,
-    paddingTop: 50,
-    alignItems: 'center',
   },
   container_content: {
     alignItems: 'center',
   },
   title_text: {
-    marginVertical: 10,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: 'My-Font',
   },
   inner_container: {
     backgroundColor: colors.white,
-    borderRadius: 20,
+    borderRadius: 10,
     marginVertical: 7,
     width: windowWidth - 30,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
+    elevation: 1,
     padding: 20,
-    marginTop: 50,
+    marginTop: 20,
     minHeight: 300,
   },
   equation: {
-    marginTop: 10,
+    marginBottom: 15,
     height: 50,
   },
   solution: {
-    marginTop: 10,
+    marginBottom: 15,
     height: 50,
   },
   button: {
@@ -183,10 +179,9 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   title: {
-    fontSize: 22,
-    fontWeight: '500',
+    fontSize: 20,
     alignSelf: 'flex-start',
     marginLeft: 20,
-    marginTop: 10,
+    marginTop: 20,
   },
 });

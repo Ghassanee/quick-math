@@ -26,6 +26,10 @@ export default function App() {
           'My-Font-Bold',
           require('../assets/fonts/Poppins-Bold.ttf'),
         );
+        await Font.loadAsync(
+          'My-Font-Medium',
+          require('../assets/fonts/Poppins-Medium.ttf'),
+        );
 
         await new Promise(resolve => setTimeout(resolve, 2000));
       } catch (e) {

@@ -2,7 +2,6 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { Home } from '../screens/Home';
-import { History } from '../screens/History';
 import { Solution } from '../screens/Solution';
 import { Steps } from '../screens/Steps';
 import CalculatorComp from '../screens/CalculatorComp';
@@ -11,7 +10,6 @@ import EditImage from '../screens/EditImage';
 export type MainStackParams = {
   Home: any;
   TextDemo: any;
-  History: any;
   FormDemo: any;
   ButtonDemo: any;
   Solution: any;
@@ -41,19 +39,17 @@ export const Main = () => (
     />
 
     <MainStack.Screen
-      name="History"
-      component={History}
-      options={{
-        headerTitle: 'History',
-        headerTransparent: true,
-      }}
-    />
-    <MainStack.Screen
       name="Solution"
       component={Solution}
       options={{
         headerTitle: 'Solution',
-        headerTransparent: true,
+        headerStyle: {
+          shadowColor: '#00000090',
+          height: 100,
+        },
+        headerTitleStyle: {
+          fontFamily: 'My-Font',
+        },
       }}
     />
     <MainStack.Screen
@@ -61,7 +57,6 @@ export const Main = () => (
       component={Steps}
       options={{
         headerTitle: 'Steps',
-        headerTransparent: true,
       }}
     />
 
