@@ -10,6 +10,7 @@ import { IconWithText } from '../components/IconWithText';
 import { windowHeight, windowWidth } from '../constants/dimensions';
 import { MyText } from '../components/MyText';
 import OriginalCamera from '../components/Camera';
+import Loader from '../components/Loader';
 
 const styles = StyleSheet.create({
   container: {
@@ -57,6 +58,7 @@ type Props = {
 
 export const Home = ({ navigation }: Props) => {
   const [image, setImage] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
   const [flashMode, setFlashMode] = useState('off');
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -71,19 +73,7 @@ export const Home = ({ navigation }: Props) => {
       setImage(result.uri);
     }
   };
-  const takeImage = async () => {
-    // No permissions request is necessary for launching the image library
-    const result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
 
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-  };
   const __handleFlashMode = () => {
     if (flashMode === 'on') {
       setFlashMode('off');
@@ -94,7 +84,15 @@ export const Home = ({ navigation }: Props) => {
     }
   };
   return (
-    <View>
+    <View
+      style={{
+        position: 'absolute',
+        flex: 1,
+        zIndex: 1,
+        height: windowHeight,
+        width: windowWidth,
+      }}
+    >
       <IconWithText
         onPress={__handleFlashMode}
         title="Flash"
@@ -127,17 +125,13 @@ export const Home = ({ navigation }: Props) => {
         icon={require('../../assets/icons/image.png')}
         style={styles.image}
       />
-      <View
-        style={{
-          position: 'absolute',
-          flex: 1,
-          zIndex: 1,
-          height: windowHeight,
-          width: windowWidth,
-        }}
-      >
-        <OriginalCamera flashMode={flashMode} />
-      </View>
+      <Loader active={loading} />
+
+      <OriginalCamera
+        onLoad={(val: boolean) => setLoading(val)}
+        navigation={navigation}
+        flashMode={flashMode}
+      />
     </View>
   );
 };

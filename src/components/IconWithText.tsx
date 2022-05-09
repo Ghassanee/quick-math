@@ -9,9 +9,11 @@ import {
   Image,
   ImageSourcePropType,
   Text,
+  Vibration,
 } from 'react-native';
 
 import colors from '../constants/colors';
+import { ONE_SECOND_IN_MS } from '../constants/varibales';
 import { MyText } from './MyText';
 
 const styles = StyleSheet.create({
@@ -25,7 +27,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 2,
     shadowColor: '#000',
-
     elevation: 1,
   },
 
@@ -54,7 +55,13 @@ export const IconWithText = ({
   const containerStyles: StyleProp<ViewStyle>[] = [styles.container, style];
 
   return (
-    <TouchableOpacity onPress={onPress} style={containerStyles}>
+    <TouchableOpacity
+      onPress={() => {
+        Vibration.vibrate(0.1 * ONE_SECOND_IN_MS);
+        onPress();
+      }}
+      style={containerStyles}
+    >
       <Image style={styles.icon} source={icon} resizeMode="contain" />
     </TouchableOpacity>
   );

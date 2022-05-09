@@ -6,6 +6,7 @@ import { History } from '../screens/History';
 import { Solution } from '../screens/Solution';
 import { Steps } from '../screens/Steps';
 import CalculatorComp from '../screens/CalculatorComp';
+import EditImage from '../screens/EditImage';
 
 export type MainStackParams = {
   Home: any;
@@ -16,6 +17,7 @@ export type MainStackParams = {
   Solution: any;
   Steps: any;
   Calculator: any;
+  EditImage: any;
 };
 
 const MainStack = createStackNavigator<MainStackParams>();
@@ -68,6 +70,14 @@ export const Main = () => (
       component={CalculatorComp}
       options={{
         headerTitle: 'Insert',
+      }}
+    />
+
+    <MainStack.Screen
+      name="EditImage"
+      component={EditImage}
+      options={{
+        headerTitle: 'Edit Image',
       }}
     />
   </MainStack.Navigator>

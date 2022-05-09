@@ -4,9 +4,9 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { Vibration, View } from 'react-native';
 import { Main } from './Main';
 import { History } from '../screens/History';
+import { ONE_SECOND_IN_MS } from '../constants/varibales';
 
 const Tab = createMaterialTopTabNavigator();
-const ONE_SECOND_IN_MS = 1000;
 
 export function BottomNavigator() {
   return (
@@ -51,11 +51,7 @@ export function BottomNavigator() {
           ),
         }}
         listeners={{
-          tabPress: () => {
-            console.log('sss');
-
-            Vibration.vibrate(0.1 * ONE_SECOND_IN_MS);
-          },
+          tabPress: () => Vibration.vibrate(0.1 * ONE_SECOND_IN_MS),
         }}
       />
       <Tab.Screen
@@ -69,11 +65,7 @@ export function BottomNavigator() {
           ),
         }}
         listeners={{
-          tabPress: () => {
-            console.log('sss');
-
-            Vibration.vibrate(0.1 * ONE_SECOND_IN_MS);
-          },
+          tabPress: () => Vibration.vibrate(0.1 * ONE_SECOND_IN_MS),
         }}
       />
     </Tab.Navigator>

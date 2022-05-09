@@ -1,20 +1,19 @@
-/* eslint-disable prettier/prettier */
 import { ActivityIndicator, View } from 'react-native';
 import React from 'react';
 import { windowHeight, windowWidth } from '../constants/dimensions';
 
-export default function Loader() {
+export default function Loader({ active }: any) {
   return (
     <View
       style={{
-        flex: 1,
+        opacity: active ? 1 : 0,
         position: 'absolute',
-        zIndex: 99,
+        zIndex: 3,
         backgroundColor: '#00000080',
         height: windowHeight + 40,
         width: windowWidth,
         justifyContent: 'center',
-        alignItems: 'center',
+        elevation: 2,
       }}
     >
       <ActivityIndicator size={50} color="red" />
