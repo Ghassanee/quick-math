@@ -2,29 +2,15 @@
 /* eslint-disable no-unused-vars */
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-  ImageBackground,
-  Image,
-  ActivityIndicator,
-} from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
 import { Camera } from 'expo-camera';
 import { useIsFocused } from '@react-navigation/native';
-import Loader from './Loader';
 import { getEquation } from '../api/readImage';
-import { MyText } from './MyText';
 import { windowHeight, windowWidth } from '../constants/dimensions';
 
 let camera: Camera;
 export default function OriginalCamera({ navigation, flashMode, onLoad }: any) {
   const [startCamera, setStartCamera] = useState(true);
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [capturedImage, setCapturedImage] = useState<any>(null);
-  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const isFocused = useIsFocused();
   const __startCamera = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
@@ -46,14 +32,11 @@ export default function OriginalCamera({ navigation, flashMode, onLoad }: any) {
   const __takePicture = async () => {
     onLoad(true);
     const photo: any = await camera.takePictureAsync({});
-    setPreviewVisible(true);
     onLoad(false);
 
     navigation.push('EditImage', {
       photo,
     });
-    // setStartCamera(false)
-    setCapturedImage(photo);
     getEquation(photo);
   };
 
@@ -69,7 +52,7 @@ export default function OriginalCamera({ navigation, flashMode, onLoad }: any) {
   return (
     <View style={styles.container}>
       <Camera
-        type={cameraType}
+        type={Camera.Constants.Type.back}
         // @ts-ignore
         flashMode={flashMode}
         style={{ flex: 1, height: windowHeight, width: windowWidth }}

@@ -48,7 +48,7 @@ export default function App() {
       <NavigationContainer>
         <BottomNavigator />
       </NavigationContainer>
-      <StatusBar style="dark" backgroundColor="#ffffff90" />
+      <StatusBar style="dark" backgroundColor="#ffffff" />
     </>
   );
 }

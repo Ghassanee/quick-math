@@ -57,20 +57,24 @@ type Props = {
 };
 
 export const Home = ({ navigation }: Props) => {
-  const [image, setImage] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [flashMode, setFlashMode] = useState('off');
+  const [pickingImage, setpickingImage] = useState(false);
   const pickImage = async () => {
+    setpickingImage(true);
     // No permissions request is necessary for launching the image library
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
+      allowsEditing: false,
       aspect: [4, 3],
       quality: 1,
     });
 
-    if (!result.cancelled) {
-      setImage(result.uri);
+    if (result && !result.cancelled) {
+      navigation.push('EditImage', {
+        photo: result,
+      });
+      setpickingImage(false);
     }
   };
 
@@ -127,11 +131,13 @@ export const Home = ({ navigation }: Props) => {
       />
       {loading && <Loader />}
 
-      <OriginalCamera
-        onLoad={(val: boolean) => setLoading(val)}
-        navigation={navigation}
-        flashMode={flashMode}
-      />
+      {!pickingImage && (
+        <OriginalCamera
+          onLoad={(val: boolean) => setLoading(val)}
+          navigation={navigation}
+          flashMode={flashMode}
+        />
+      )}
     </View>
   );
 };
