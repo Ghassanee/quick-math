@@ -45,7 +45,7 @@ export default function OriginalCamera({ navigation, flashMode, onLoad }: any) {
 
   const __takePicture = async () => {
     onLoad(true);
-    const photo: any = await camera.takePictureAsync();
+    const photo: any = await camera.takePictureAsync({});
     setPreviewVisible(true);
     onLoad(false);
 
