@@ -2,12 +2,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-empty */
 import React, { useEffect, useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 // @ts-ignore
 import AlgebraLatex from 'algebra-latex';
 import { WebView } from 'react-native-webview';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../constants/colors';
 import { MainStackParams } from '../navigation/Main';
 import { windowWidth } from '../constants/dimensions';
@@ -28,6 +29,42 @@ export const Solution = ({ route, navigation }: Props) => {
   const [imageSolution, setimageSolution] = useState(
     'https://latex.codecogs.com/gif.latex?\\huge&space;exp(x)+log(y)=2',
   );
+  React.useEffect(() => {
+    navigation.setOptions({
+      title: 'Updated!',
+      headerRight: () => (
+        // @ts-ignore
+        <MaterialCommunityIcons
+          onPress={onShare}
+          name="share-variant-outline"
+          size={22}
+        />
+      ),
+      headerRightContainerStyle: {
+        marginRight: 20,
+      },
+    });
+  });
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: 'Share this solution with friends',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   useEffect(() => {
     try {
       const equation_ = new AlgebraLatex().parseMath(equation.toLowerCase());
@@ -135,6 +172,7 @@ export const Solution = ({ route, navigation }: Props) => {
           }}
         />
       }
+      {/* <Button onPress={onShare} title="Share" /> */}
     </ScrollView>
   );
 };
