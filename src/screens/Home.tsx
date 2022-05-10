@@ -108,7 +108,9 @@ export const Home = ({ navigation }: Props) => {
         style={styles.history}
       />
       <IconWithText
-        onPress={() => {}}
+        onPress={() => {
+          navigation.push('Info');
+        }}
         title="Instructions"
         icon={require('../../assets/icons/instructions.png')}
         style={styles.instructions}

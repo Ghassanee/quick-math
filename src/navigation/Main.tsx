@@ -30,7 +30,7 @@ export const Main = () => (
   // @ts-ignore
   <MainStack.Navigator
     screenOptions={{ cardStyleInterpolator: forFade }}
-    initialRouteName="Info"
+    initialRouteName="Home"
   >
     <MainStack.Screen
       name="Home"
@@ -58,7 +58,7 @@ export const Main = () => (
       name="Info"
       component={Info}
       options={{
-        headerTitle: 'Info',
+        headerTitle: 'About Us',
         headerStyle: {
           shadowColor: '#00000090',
           height: 100,

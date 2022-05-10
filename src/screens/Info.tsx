@@ -19,7 +19,7 @@ export default function Info() {
       </View>
       <MyText style={styles.textAbout}>
         QuickMath was created by a three FSTG students who were looking for a
-        way to help his college with their solving math functions. Three
+        way to help their colleges with solving math problems. Three
         datascientists by background :
       </MyText>
       <MyText style={styles.bold}>Aboughazaouat Ghassane </MyText>
@@ -28,9 +28,11 @@ export default function Info() {
       <MyText style={styles.textAbout}>
         Found it challenging trying to solve math problems in an easy,
         approachable way, and so it was out of there personal struggles that
-        sparked the idea for QuickMaht. Our current mission is to help students
-        understand math, one step at a time and it&apos;s our belief that
-        everyone can be good at math!
+        sparked the idea for QuickMaht.
+      </MyText>
+      <MyText style={styles.textAbout}>
+        Our current mission is to help students understand math, one step at a
+        time and it&apos;s our belief that everyone can be good at math!
       </MyText>
       <Button
         onPress={() =>
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
   },
   bold: { fontWeight: 'bold', fontSize: 16, textAlign: 'left' },
   copyright: {
-    textAlign: 'left',
+    textAlign: 'center',
     margin: 20,
     fontSize: 10,
   },
