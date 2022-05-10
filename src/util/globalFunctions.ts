@@ -8,7 +8,6 @@ export function getTime(date: any) {
     return '';
   }
   const time = new Date(date);
-  console.log(time);
 
   return time.toJSON().slice(0, 10).replace(/-/g, '/') !==
     new Date().toJSON().slice(0, 10).replace(/-/g, '/')

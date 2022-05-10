@@ -6,6 +6,7 @@ import { Solution } from '../screens/Solution';
 import { Steps } from '../screens/Steps';
 import CalculatorComp from '../screens/CalculatorComp';
 import EditImage from '../screens/EditImage';
+import Info from '../screens/Info';
 
 export type MainStackParams = {
   Home: any;
@@ -16,6 +17,7 @@ export type MainStackParams = {
   Steps: any;
   Calculator: any;
   EditImage: any;
+  Info: any;
 };
 
 const MainStack = createStackNavigator<MainStackParams>();
@@ -28,7 +30,7 @@ export const Main = () => (
   // @ts-ignore
   <MainStack.Navigator
     screenOptions={{ cardStyleInterpolator: forFade }}
-    initialRouteName="Home"
+    initialRouteName="Info"
   >
     <MainStack.Screen
       name="Home"
@@ -43,6 +45,20 @@ export const Main = () => (
       component={Solution}
       options={{
         headerTitle: 'Solution',
+        headerStyle: {
+          shadowColor: '#00000090',
+          height: 100,
+        },
+        headerTitleStyle: {
+          fontFamily: 'My-Font',
+        },
+      }}
+    />
+    <MainStack.Screen
+      name="Info"
+      component={Info}
+      options={{
+        headerTitle: 'Info',
         headerStyle: {
           shadowColor: '#00000090',
           height: 100,

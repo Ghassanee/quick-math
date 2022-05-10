@@ -40,14 +40,16 @@ type ButtonProps = {
   onPress: () => void;
   name: string;
   type?: 'outline';
+  style?: ViewStyle;
 };
 
 export const Button = ({
   onPress = () => {},
   name = '',
   type,
+  style,
 }: ButtonProps) => {
-  const containerStyles: StyleProp<ViewStyle>[] = [styles.container];
+  const containerStyles: StyleProp<ViewStyle>[] = [styles.container, style];
   const textStyles: StyleProp<TextStyle>[] = [styles.text];
 
   return (
